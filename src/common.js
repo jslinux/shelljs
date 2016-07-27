@@ -5,12 +5,11 @@
 var os = require('os');
 var fs = require('fs');
 var glob = require('glob');
+var shell = require('..');
 var _to = require('./to');
 var _toEnd = require('./toEnd');
 
 var DEFAULT_ERROR_CODE = 1;
-
-var shell; // This would otherwise be a cyclicdic depencency, so we lazily load it.
 
 // Module globals
 var config = {
@@ -105,8 +104,6 @@ function ShellString(stdout, stderr, code) {
   that.code = code;
   that.to    = function() {wrap('to', _to, {globStart: 1}).apply(that.stdout, arguments); return that;};
   that.toEnd = function() {wrap('toEnd', _toEnd, {globStart: 1}).apply(that.stdout, arguments); return that;};
-  // Lazily load shell
-  shell = shell || require('..');
   // A list of all commands that can appear on the right-hand side of a pipe
   // (populated by calls to common.wrap())
   pipeMethods.forEach(function (cmd) {

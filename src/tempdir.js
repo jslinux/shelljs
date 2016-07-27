@@ -1,8 +1,14 @@
 var common = require('./common');
-var mktemp = require('./mktemp');
 var os = require('os');
 var fs = require('fs');
 var path = require('path');
+
+var mktemp;
+
+function getMktemp() {
+  if (!mktemp) mktemp = require('./mktemp');
+  return mktemp;
+}
 
 common.register('tempdir', _tempDir);
 
@@ -15,7 +21,7 @@ function writeableDir(dir) {
     return false;
 
   try {
-    mktemp('-u', path.resolve(dir, 'tmp.shelljs.XXXXXXXXXX'));
+    getMktemp()('-u', path.resolve(dir, 'tmp.shelljs.XXXXXXXXXX'));
     return dir;
   } catch (e) {
     return false;

@@ -15,11 +15,11 @@ common.register('exec', _exec, {notUnix:true, canReceivePipe: true});
 // Node is single-threaded; callbacks and other internal state changes are done in the
 // event loop).
 function execSync(cmd, opts, pipe) {
-  var stdoutFile = mktemp('-u')[0],
-      stderrFile = mktemp('-u')[0],
-      codeFile = mktemp('-u')[0],
-      scriptFile = mktemp('-u')[0],
-      sleepFile = mktemp('-u')[0];
+  var stdoutFile = mktemp({ dryRun: true })[0],
+      stderrFile = mktemp({ dryRun: true })[0],
+      codeFile   = mktemp({ dryRun: true })[0],
+      scriptFile = mktemp({ dryRun: true })[0],
+      sleepFile  = mktemp({ dryRun: true })[0];
 
   opts = common.extend({
     silent: common.config.silent,
